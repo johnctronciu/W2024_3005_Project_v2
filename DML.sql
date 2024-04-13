@@ -63,7 +63,7 @@ insert into adminPayroll(admin_id, salary) VALUES
 (1,100000),
 (2,80000);
 
-insert into trainerSchedule(trainer_id, availible, start_time, end_time) VALUES
+insert into trainerSchedule(trainer_id, available, start_time, end_time) VALUES
 (1,'2024-05-02','09:00:00','17:00:00'),
 (2,'2024-05-16','12:00:00','17:00:00'),
 (2,'2024-06-16','8:00:00','16:00:00');

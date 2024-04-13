@@ -118,10 +118,10 @@ create table adminPayroll (
 
 create table trainerSchedule (
 	trainer_id int not null,
-	availible date,
+	available date,
 	start_time time,
 	end_time time,
 	foreign key (trainer_id)
 		references trainers (trainer_id),
-	primary key (trainer_id, availible)
+	primary key (trainer_id, available)
 );
