@@ -5,7 +5,8 @@ create table members (
 	email text not null unique,
     start_date date not null,
 	weight int not null check (weight > 0),
-	bodyfat_percent int not null check (0 < bodyfat_percent and bodyfat_percent <= 100) 
+	bodyfat_percent int not null check (0 < bodyfat_percent and bodyfat_percent <= 100),
+	card_no char(9) unique
 );
 
 create table admins (
@@ -39,7 +40,8 @@ create table billing (
 		references members (member_id)
 		on delete cascade,
 	cost decimal,
-	card_no char(9)
+	card_no char(9),
+    transaction_date date not null
 );
 
 create table trainers (
@@ -59,7 +61,8 @@ create table personalSession(
 		references trainers (trainer_id),
 	session_date date not null,
 	session_start time not null,
-	session_end time not null
+	session_end time not null,
+    check(session_start < session_end)
 );
 
 create table groupClass(
@@ -90,7 +93,7 @@ create table assignedClass (
 );
 
 create table classRoom (
-	room_no int not null,
+	room_no char(3) not null,
 	class_id int not null,
 	foreign key (class_id)
 		references groupClass (class_id),
@@ -120,5 +123,5 @@ create table trainerSchedule (
 	end_time time,
 	foreign key (trainer_id)
 		references trainers (trainer_id),
-	primary key (trainer_id)
+	primary key (trainer_id, availible)
 );
