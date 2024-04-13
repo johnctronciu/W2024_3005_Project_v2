@@ -1,20 +1,255 @@
 from config import load_config
 from connect import connect
 
-def getAllStudents(): #Function to print all students
+from datetime import date
+
+def getEquipmentList():
     config = load_config() #load config to get user data to connect to database
     connection = connect(config) #Connect
  
     if (connection != None):
         with connection.cursor() as cur:
-            cur.execute("select student_id, first_name, last_name, email, enrollment_date from Students") #Execute SQL statement
-            rows = cur.fetchall() #Get all rows/entries of data
+            cur.execute("select * from equipment") #Execute SQL statement
+            rows = cur.fetchall() #Get one rows/entries of data
 
-            print("\nListing all Students")
+            print("\nDisplaying equipment list")
             print("-----------------------------------------")
             for row in rows:
                 print(row)
+
+def inNeedofMaintenance():
+    config = load_config() #load config to get user data to connect to database
+    connection = connect(config) #Connect
+ 
+    if (connection != None):
+        with connection.cursor() as cur:
+            cur.execute("select * from equipment") #Execute SQL statement
+            rows = cur.fetchall() #Get one rows/entries of data
+
+            print("\nDisplaying equipment in need of maintenance")
+            print("-----------------------------------------")
+            for row in rows:
+                if (row[4]== True):
+                    print(row[0],row[1])
+
+def maintainEquipment(equipment_id):
+    config = load_config()
+    connection = connect(config)
+    print("\Maintaining equipment:")
+    print("-----------------------------------------")
+    if (connection != None):
+        with connection.cursor() as cur:
+            cur.execute("update equipment set last_maintenance_date=%s, needs_maintenance=%s where equipment_id=%s;", (date.today(),False, equipment_id)) #SQL Statement to update
+            connection.commit() #Commit any pending transaction to the database.
+
+            print("equipment successfully maintained\n")
+
+            connection.close()
+
+def addEquipment(equipment, days_per_maintenance):
+    config = load_config()
+    connection = connect(config)
+    print("\Adding equipment...")
+    print("-----------------------------------------")
+    if (connection != None):
+        with connection.cursor() as cur:
+            cur.execute("insert into equipment (equipment, last_maintenance_date, days_per_maintenance, needs_maintenance) VALUES (%s, %s, %s, %s);", (equipment, date.today(), days_per_maintenance, False)) #SQL statement to insert
+            connection.commit() #Commit any pending transaction to the database.
+            connection.close()
+    
+    print("New member successfully added with data:", first_name, last_name, email, start_date, weight, bodyfat_percent, card_no)
+    print("")
+
+def removeEquipment(equipment_id):
+    config = load_config()
+    connection = connect(config)
+    print("\Removing equipment data:")
+    print("-----------------------------------------")
+    if (connection != None):
+        with connection.cursor() as cur:
+            cur.execute("delete from equipment where trainer_id=%s;", (equipment_id)) #SQL statement to delete
+            connection.commit() #Commit any pending transaction to the database.
+
+            print("Delete equipment Operation Successfully Recieved by Database\n")
+
+            connection.close()
+
+def checkBookedRooms():
+    config = load_config() #load config to get user data to connect to database
+    connection = connect(config) #Connect
+ 
+    if (connection != None):
+        with connection.cursor() as cur:
+            cur.execute("select * from classRoom") #Execute SQL statement
+            rows = cur.fetchall() #Get one rows/entries of data
+
+            print("\nDisplaying booked rooms")
+            print("-----------------------------------------")
+            for row in rows:
+                print(row)
+
+def bookRoom(room_no, class_id):
+    config = load_config()
+    connection = connect(config)
+    print("\Adding booking...")
+    print("-----------------------------------------")
+    if (connection != None):
+        with connection.cursor() as cur:
+            cur.execute("insert into classRoom (room__no, class_id) VALUES (%s, %s);", (room_no, class_id)) #SQL statement to insert
+            connection.commit() #Commit any pending transaction to the database.
+            connection.close()
+    
+    print("New room successfully booked with data:", room_no, class_id)
+    print("")
+
+def unbookRoom(room_no):
+    config = load_config()
+    connection = connect(config)
+    print("\Removing room booking data:")
+    print("-----------------------------------------")
+    if (connection != None):
+        with connection.cursor() as cur:
+            cur.execute("delete from classRoom where room_no=%s;", (room_no)) #SQL statement to delete
+            connection.commit() #Commit any pending transaction to the database.
+
+            print("Delete room booking Operation Successfully Recieved by Database\n")
+
+            connection.close()
+        
+def updateRoomBooking(room_no, class_id):
+    config = load_config()
+    connection = connect(config)
+    print("\Changing booking:")
+    print("-----------------------------------------")
+    if (connection != None):
+        with connection.cursor() as cur:
+            cur.execute("update classRoom set room_no=%s, where class_id=%s;", (room_no, class_id)) #SQL Statement to update
+            connection.commit() #Commit any pending transaction to the database.
+
+            print("Room number successfully changed\n")
+
+            connection.close()
+
+def addGroupClass(class_date, class_start, class_end):
+    config = load_config()
+    connection = connect(config)
+    print("\Adding class...")
+    print("-----------------------------------------")
+    if (connection != None):
+        with connection.cursor() as cur:
+            cur.execute("insert into groupClass (class_date, class_start, class_end) VALUES (%s, %s, %s);", (class_date, class_start, class_end)) #SQL statement to insert
+            connection.commit() #Commit any pending transaction to the database.
+            connection.close()
+    
+    print("New class successfully added with data:", class_date, class_start, class_end)
+    print("")
+
+def removeGroupClass(class_id):
+    config = load_config()
+    connection = connect(config)
+    print("\Removing class data:")
+    print("-----------------------------------------")
+    if (connection != None):
+        with connection.cursor() as cur:
+            cur.execute("delete from groupClass where class_id=%s;", (class_id)) #SQL statement to delete
+            connection.commit() #Commit any pending transaction to the database.
+
+            print("Delete room booking Operation Successfully Recieved by Database\n")
+
+            connection.close()
+        
+def updateGroupClass(class_id, class_date, class_start, class_end):
+    config = load_config()
+    connection = connect(config)
+    if (connection != None):
+        with connection.cursor() as cur:
+            fields = []
+            values = []
+            
+            if class_date:
+                fields.append("class_date = %s")
+                values.append(class_date)
+            if class_start:
+                fields.append("class_start = %s")
+                values.append(class_start)
+            if class_end:
+                fields.append("class_end = %s")
+                values.append(class_end)
+            values.append(class_id)
+            print("update members set " + ", ".join(fields) + " where member_id = %s;", tuple(values))
+            cur.execute("update members set " + ", ".join(fields) + " where member_id = %s;", tuple(values))
+            connection.commit()
+            connection.close()
+
+def assignTrainertoClass(trainer_id, class_id): #TODO: Check availability
+    config = load_config()
+    connection = connect(config)
+    print("\Assigning trainer...")
+    print("-----------------------------------------")
+    if (connection != None):
+        with connection.cursor() as cur:
+            cur.execute("insert into assignedClass (trainer_id, class_id,) VALUES (%s, %s);", (trainer_id, class_id)) #SQL statement to insert
+            connection.commit() #Commit any pending transaction to the database.
+            connection.close()
+    
+    print("New class successfully added with data:", trainer_id, class_id)
+    print("")
+
+def removeTrainerfromClass(trainer_id):
+    config = load_config()
+    connection = connect(config)
+    print("\Removing trainer from class data:")
+    print("-----------------------------------------")
+    if (connection != None):
+        with connection.cursor() as cur:
+            cur.execute("delete from assignedClass where trainer_id=%s;", (trainer_id)) #SQL statement to delete
+            connection.commit() #Commit any pending transaction to the database.
+
+            print("Delete trainer from class Operation Successfully Recieved by Database\n")
+
+            connection.close()
+
+#Payment stuff
+
+def getBilling(member_id):
+    config = load_config() #load config to get user data to connect to database
+    connection = connect(config) #Connect
+ 
+    if (connection != None):
+        with connection.cursor() as cur:
+            cur.execute("select * from billing where member_id=%s", member_id) #Execute SQL statement
+            rows = cur.fetchall() #Get one rows/entries of data
+
+            print("\nDisplaying member billing information")
+            print("-----------------------------------------")
+            for row in rows:
+                print(row)
+
+    connection.close()
+
+def retrievePayment(member_id):
+    config = load_config() #load config to get user data to connect to database
+    connection = connect(config) #Connect
+ 
+    if (connection != None):
+        with connection.cursor() as cur:
+            cur.execute("select * from members where member_id=%s", member_id) #Execute SQL statement
+            row = cur.fetchone() #Get one rows/entries of data
+
+            print("Proccessing payment for member %s, %s ID: %s, email: %s" % (row[1], row[2], member_id, row[3]))
+            cur.execute("insert into billing (member_id, cost, card_no, transaction_date) VALUES (%s, %s, %s, %s);", (member_id, row[8], row[7], date.today())) #SQL statement to insert
+            connection.commit()
+            print("Amount Paid: $%s, Card Number: #%s" % (row[8], row[7]))
+
                 #print(row[0]) Can get IDs like this and put them in an array to check before deletion? But then will we iterate through the array each time? Or make it a global variable?
                 # Dont need to for this assignment, beyond scope I think
     print("")
     connection.close()
+
+
+
+if __name__ == '__main__':
+    #getEquipmentList()
+    #inNeedofMaintenance()
+    #maintainEquipment(2)
+    retrievePayment("1")

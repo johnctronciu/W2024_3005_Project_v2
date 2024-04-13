@@ -29,7 +29,7 @@ def deleteAvailibility(trainer_id, available): #DELETE student data row from tab
 
             connection.close()
 
-def updateAvailibility(trainer_id, available=None,start_time=None,end_time=None):
+def updateAvailibility(trainer_id, available,start_time=None,end_time=None):
     config = load_config()
     connection = connect(config)
     if (connection != None):
@@ -37,9 +37,6 @@ def updateAvailibility(trainer_id, available=None,start_time=None,end_time=None)
             fields = []
             values = []
             
-            if available:
-                fields.append("available = %s")
-                values.append(available)
             if start_time:
                 fields.append("start_time = %s")
                 values.append(start_time)
@@ -48,9 +45,52 @@ def updateAvailibility(trainer_id, available=None,start_time=None,end_time=None)
                 values.append(end_time)
             
             values.append(trainer_id)
-            print("update trainerSchedule set " + ", ".join(fields) + " where trainer_id = %s;", tuple(values))
-            cur.execute("update trainerSchedule set " + ", ".join(fields) + " where trainer_id = %s;", tuple(values))
+            values.append(available)
+            cur.execute("update trainerSchedule set " + ", ".join(fields) + " where trainer_id = %s and available = %s;", tuple(values))
             connection.commit()
             connection.close()
 
-def
+def searchMemberProfile(first_name, last_name):
+    config = load_config() #load config to get user data to connect to database
+    connection = connect(config) #Connect
+ 
+    if (connection != None):
+        with connection.cursor() as cur:
+            cur.execute("select member_id, first_name, last_name, email, start_date, weight, bodyfat_percent from members where (first_name=%s and last_name=%s);", (first_name, last_name)) #Execute SQL statement
+            rows = cur.fetchall() #Get one rows/entries of data
+
+            print("\nDisplaying member dashboard\n")
+            print("Health Metrics and User information")
+            print("-----------------------------------------")
+            for row in rows:
+                print(row)
+
+def getMemberSession(first_name, last_name):
+    config = load_config() #load config to get user data to connect to database
+    connection = connect(config) #Connect
+ 
+    if (connection != None):
+        with connection.cursor() as cur:
+            cur.execute("select * from personalSession where first_name=%s and last_name=%s", first_name, last_name) #Execute SQL statement
+            rows = cur.fetchall() #Get one rows/entries of data
+
+            print("\nDisplaying member personal sessions\n")
+            print("Member: %s, %s" (first_name, last_name))
+            print("-----------------------------------------")
+            for row in rows:
+                print(row)
+
+def getMemberClass(first_name, last_name):
+    config = load_config() #load config to get user data to connect to database
+    connection = connect(config) #Connect
+ 
+    if (connection != None):
+        with connection.cursor() as cur:
+            cur.execute("select * from personalSession where first_name=%s and last_name=%s", first_name, last_name) #Execute SQL statement
+            rows = cur.fetchall() #Get one rows/entries of data
+
+            print("\nDisplaying member personal sessions\n")
+            print("Member: %s, %s" (first_name, last_name))
+            print("-----------------------------------------")
+            for row in rows:
+                print(row)

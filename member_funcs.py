@@ -1,21 +1,21 @@
 from config import load_config
 from connect import connect
 
-def userRegistration(first_name, last_name, email, start_date, weight, bodyfat_percent, card_no): #Add student to database
+def userRegistration(first_name, last_name, email, start_date, weight, bodyfat_percent, card_no, cost): #Add student to database
     config = load_config()
     connection = connect(config)
     print("\nRegistering member...")
     print("-----------------------------------------")
     if (connection != None):
         with connection.cursor() as cur:
-            cur.execute("insert into members (first_name, last_name, email, start_date, weight, bodyfat_percent, card_no) VALUES (%s, %s, %s, %s, %s, %s, %s);", (first_name, last_name, email, start_date, weight, bodyfat_percent, card_no)) #SQL statement to insert
+            cur.execute("insert into members (first_name, last_name, email, start_date, weight, bodyfat_percent, card_no, membership_cost) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);", (first_name, last_name, email, start_date, weight, bodyfat_percent, card_no, cost)) #SQL statement to insert
             connection.commit() #Commit any pending transaction to the database.
             connection.close()
     
     print("New member successfully added with data:", first_name, last_name, email, start_date, weight, bodyfat_percent, card_no)
     print("")
 
-def updateProfile(member_id,first_name=None,last_name=None,email=None,weight=None,bodyfat_percent=None,card_no=None):
+def updateProfile(member_id,first_name=None,last_name=None,email=None,weight=None,bodyfat_percent=None,card_no=None, membership_cost=None):
     config = load_config()
     connection = connect(config)
     if (connection != None):
@@ -41,6 +41,9 @@ def updateProfile(member_id,first_name=None,last_name=None,email=None,weight=Non
             if card_no:
                 fields.append("card_no = %s")
                 values.append(card_no)
+            if membership_cost:
+                fields.append("membership_cost = %s")
+                values.append(membership_cost)
             values.append(member_id)
             print("update members set " + ", ".join(fields) + " where member_id = %s;", tuple(values))
             cur.execute("update members set " + ", ".join(fields) + " where member_id = %s;", tuple(values))

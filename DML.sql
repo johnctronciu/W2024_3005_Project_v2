@@ -1,7 +1,7 @@
-insert into members(first_name, last_name, email, start_date, weight, bodyfat_percent, card_no) VALUES
-('John', 'Doe', 'john.doe@example.com', '2023-09-01', 225, 35, '123456789'),
-('Jane', 'Smith', 'jane.smith@example.com', '2023-01-01', 150, 22,'246728210'),
-('Jim', 'Beam', 'jim.beam@example.com', '2023-09-28',184, 15,'918762715');
+insert into members(first_name, last_name, email, start_date, weight, bodyfat_percent, card_no, membership_cost) VALUES
+('John', 'Doe', 'john.doe@example.com', '2023-09-01', 225, 35, '123456789', .29.99),
+('Jane', 'Smith', 'jane.smith@example.com', '2023-01-01', 150, 22,'246728210',12.99),
+('Jim', 'Beam', 'jim.beam@example.com', '2023-09-28',184, 15,'918762715', 99.99);
 
 insert into admins(first_name, last_name, email) VALUES
 ('James', 'Dean', 'james.dean@admin.com'),
@@ -23,8 +23,8 @@ insert into billing(member_id, cost, card_no, transaction_date) VALUES
 (1, 29.99, '123456789', '2023-09-15'),
 (1, 29.99, '123456789', '2023-09-29'),
 (2, 12.99, '246728210', '2023-01-15'),
-(2, 29.99, '246728210', '2023-01-29'),
-(3, 29.99, '918762715', '2023-10-10');
+(2, 12.99, '246728210', '2023-01-29'),
+(3, 99.99, '918762715', '2023-10-10');
 
 insert into trainers(first_name, last_name, email) VALUES
 ('Chad', 'Chad', 'chad.chad@trainer.com'),
@@ -50,18 +50,18 @@ insert into assignedClass(trainer_id, class_id) VALUES
 (2,2),
 (2,3);
 
+insert into Room(room_no) VALUES
+(101),
+(102),
+(103),
+(201),
+(202),
+(203);
+
 insert into classRoom(room_no, class_id) VALUES
 (101,1),
 (101,2),
 (102,3);
-
-insert into trainerPayroll(trainer_id, salary) VALUES
-(1,75000),
-(2,90000);
-
-insert into adminPayroll(admin_id, salary) VALUES
-(1,100000),
-(2,80000);
 
 insert into trainerSchedule(trainer_id, available, start_time, end_time) VALUES
 (1,'2024-05-02','09:00:00','17:00:00'),
