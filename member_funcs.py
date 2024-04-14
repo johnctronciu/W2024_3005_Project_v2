@@ -15,41 +15,6 @@ def userRegistration(first_name, last_name, email, start_date, weight, bodyfat_p
     print("New member successfully added with data:", first_name, last_name, email, start_date, weight, bodyfat_percent, card_no)
     print("")
 
-def updateProfile(member_id,first_name=None,last_name=None,email=None,weight=None,bodyfat_percent=None,card_no=None, membership_cost=None):
-    config = load_config()
-    connection = connect(config)
-    if (connection != None):
-        with connection.cursor() as cur:
-            fields = []
-            values = []
-            
-            if first_name:
-                fields.append("first_name = %s")
-                values.append(first_name)
-            if last_name:
-                fields.append("last_name = %s")
-                values.append(last_name)
-            if email:
-                fields.append("email = %s")
-                values.append(email)
-            if weight:
-                fields.append("weight = %s")
-                values.append(weight)
-            if bodyfat_percent:
-                fields.append("bodyfat_percent = %s")
-                values.append(bodyfat_percent)
-            if card_no:
-                fields.append("card_no = %s")
-                values.append(card_no)
-            if membership_cost:
-                fields.append("membership_cost = %s")
-                values.append(membership_cost)
-            values.append(member_id)
-            print("update members set " + ", ".join(fields) + " where member_id = %s;", tuple(values))
-            cur.execute("update members set " + ", ".join(fields) + " where member_id = %s;", tuple(values))
-            connection.commit()
-            connection.close()
-
 def addGoal(member_id, goal):
     config = load_config()
     connection = connect(config)
@@ -106,6 +71,41 @@ def schedulePersonal(member_id, trainer_id, session_date, session_start, session
     
     print("Personal session booked successfully with data:", member_id, trainer_id, session_date, session_start,session_end)
     print("")
+
+def updateProfile(member_id,first_name=None,last_name=None,email=None,weight=None,bodyfat_percent=None,card_no=None, membership_cost=None):
+    config = load_config()
+    connection = connect(config)
+    if (connection != None):
+        with connection.cursor() as cur:
+            fields = []
+            values = []
+            
+            if first_name:
+                fields.append("first_name = %s")
+                values.append(first_name)
+            if last_name:
+                fields.append("last_name = %s")
+                values.append(last_name)
+            if email:
+                fields.append("email = %s")
+                values.append(email)
+            if weight:
+                fields.append("weight = %s")
+                values.append(weight)
+            if bodyfat_percent:
+                fields.append("bodyfat_percent = %s")
+                values.append(bodyfat_percent)
+            if card_no:
+                fields.append("card_no = %s")
+                values.append(card_no)
+            if membership_cost:
+                fields.append("membership_cost = %s")
+                values.append(membership_cost)
+            values.append(member_id)
+            print("update members set " + ", ".join(fields) + " where member_id = %s;", tuple(values))
+            cur.execute("update members set " + ", ".join(fields) + " where member_id = %s;", tuple(values))
+            connection.commit()
+            connection.close()
 
 def viewClasses():
     config = load_config() #load config to get user data to connect to database

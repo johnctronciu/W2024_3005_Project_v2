@@ -28,7 +28,7 @@ def memberInterface():
             print("Type 'quit' to quit the program\n")
             action = input("Action: ")
             if (action == '1'):
-                member_id = input("Enter your memeber ID: ")
+                member_id = input("Enter your member ID: ")
                 member_funcs.userDisplay(member_id)
             elif (action == '2'):
                 print("1. Add goal \n2. Update personal information\n")
@@ -52,10 +52,10 @@ def memberInterface():
                 if (action== '1'):
                     member_id = input("Enter your member ID: ")
                     trainer_id = input("Enter the trainer you would like to schedule with: ")
-                    date = input("Enter desired date of session: ")
+                    session_date = input("Enter desired date of session: ")
                     start_time = input("Enter desired start time: ")
                     end_time = input("Enter desired end time: ")
-                    member_funcs.schedulePersonal(member_id, trainer_id, date, start_time, end_time)
+                    member_funcs.schedulePersonal(member_id, trainer_id, session_date, start_time, end_time)
                 elif (action == '2'):
                     print("Available classes...")
                     member_funcs.viewClasses()
@@ -71,12 +71,11 @@ def memberInterface():
                 first_name = input("Please enter your first name: ")
                 last_name = input("Please enter your last name: ")
                 email = input("Please enter your email: ")
-                start_date = date.today()
                 weight = input("Please enter your weight: ")
                 bodyfat_percent = input("Please enter your body fat percentage: ")
                 card_no = input("Please enter your credit card number: ")
                 cost = input("Please enter your membership cost: ")
-                member_funcs.userRegistration(first_name, last_name, email, start_date, weight, bodyfat_percent, card_no, cost)
+                member_funcs.userRegistration(first_name, last_name, email, date.today(), weight, bodyfat_percent, card_no, cost)
             elif (register == '2'):
                 print("Returning to main page...")
             elif (action.lower() != 'quit'):
@@ -131,8 +130,31 @@ def adminInterface():
                 admin_funcs.removeEquipment(equipment_id)
 
         elif (action == '3'):
-            #TODO: IMPLEMENT MANAGE ROOM BOOKIGNS
-            pass
+            print("1. Add class\n2. Delete class\n3. Update class\n4. Assign trainer to class\n5. Remove trainer from class\n")
+            if (action =='1'):
+                class_date = input("Enter the class date: ")
+                class_start = input("Enter the class start time: ")
+                class_end = input("Enter the class end time: ")
+                admin_funcs.addGroupClass(class_date,class_start,class_end)
+            elif (action =='2'):
+                class_id = input("Enter the class id to be removed: ")
+                admin_funcs.removeGroupClass(class_id)
+            elif (action =='3'):
+                print("Leave blank to not change...")
+                class_id = input("Enter the class_id to update: ")
+                class_date = input("Enter the new date: ")
+                class_start = input("Enter the new start time: ")
+                class_end = input("Enter the new end time: ")
+
+                admin_funcs.updateGroupClass(class_id, class_date, class_start, class_end)
+
+            elif (action =='4'):
+                trainer_id = input("Enter the ID of the trainer to assign: ")
+                class_id = input("Enter how many the class ID to be assigned to: ")
+                admin_funcs.assignTrainertoClass(trainer_id, class_id)
+            elif (action == '5'):
+                trainer_id = input("Enter the trainer ID to remove from the class: ")
+                admin_funcs.removeTrainerfromClass(trainer_id)
         elif (action == '4'):
             member_id = input("Enter the member you want to see the billing of: ")
             admin_funcs.getBilling(member_id)
