@@ -32,6 +32,7 @@ def memberInterface():
                 member_funcs.userDisplay(member_id)
             elif (action == '2'):
                 print("1. Add goal \n2. Update personal information\n")
+                action = input("Action: ")
                 if (action== '1'):
                     member_id = input("Enter your member ID: ")
                     goal = input("Enter your goal: ")
@@ -49,6 +50,7 @@ def memberInterface():
                     member_funcs.updateProfile(member_id, first_name,last_name,email,weight,bodyfat_percent,card_no,cost)
             elif (action == '3'):
                 print("1. Schedule a private session \n2. Schedule a group class\n")
+                action = input("Action: ")
                 if (action== '1'):
                     member_id = input("Enter your member ID: ")
                     trainer_id = input("Enter the trainer you would like to schedule with: ")
@@ -99,6 +101,7 @@ def adminInterface():
     while (action.lower() != 'quit'):
         if (action == '1'):
             print("1. View booked rooms\n2. Book room\n3. Unbook room\n4. Update Room Booking\n")
+            action = input("Action: ")
             if (action =='1'):
                 admin_funcs.checkBookedRooms()
             elif (action =='2'):
@@ -114,6 +117,7 @@ def adminInterface():
                 admin_funcs.updateRoomBooking(room_no, class_id)
         elif (action == '2'):
             print("1. View All Equipment\n2. View equipment in need of maintenance\n3. Maintain equipment\n4. Add equipment\n5. Remove equipment\n")
+            action = input("Action: ")
             if (action =='1'):
                 admin_funcs.getEquipmentList()
             elif (action =='2'):
@@ -131,6 +135,7 @@ def adminInterface():
 
         elif (action == '3'):
             print("1. Add class\n2. Delete class\n3. Update class\n4. Assign trainer to class\n5. Remove trainer from class\n")
+            action = input("Action: ")
             if (action =='1'):
                 class_date = input("Enter the class date: ")
                 class_start = input("Enter the class start time: ")
@@ -182,6 +187,7 @@ def trainerInterface():
     while (action.lower() != 'quit'):
         if (action == '1'):
             print("1. Add availability\n2. Delete availability\n3. Update availability\n")
+            action = input("Action: ")
             if(action == '1'):
                 trainer_id = input("Enter your trainer ID: ") 
                 available = input("Enter the date you are available: ")

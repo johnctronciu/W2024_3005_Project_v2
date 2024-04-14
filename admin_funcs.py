@@ -57,7 +57,7 @@ def addEquipment(equipment, days_per_maintenance):
             connection.commit() #Commit any pending transaction to the database.
             connection.close()
     
-    print("New member successfully added with data:", first_name, last_name, email, start_date, weight, bodyfat_percent, card_no)
+    print("New equipment successfully added with data:", equipment, date.today(), days_per_maintenance, False)
     print("")
 
 def removeEquipment(equipment_id):
@@ -95,7 +95,7 @@ def bookRoom(room_no, class_id):
     print("-----------------------------------------")
     if (connection != None):
         with connection.cursor() as cur:
-            cur.execute("insert into classRoom (room__no, class_id) VALUES (%s, %s);", (room_no, class_id)) #SQL statement to insert
+            cur.execute("insert into classRoom (room_no, class_id) VALUES (%s, %s);", (room_no, class_id)) #SQL statement to insert
             connection.commit() #Commit any pending transaction to the database.
             connection.close()
     

@@ -1,5 +1,5 @@
 insert into members(first_name, last_name, email, start_date, weight, bodyfat_percent, card_no, membership_cost) VALUES
-('John', 'Doe', 'john.doe@example.com', '2023-09-01', 225, 35, '123456789', .29.99),
+('John', 'Doe', 'john.doe@example.com', '2023-09-01', 225, 35, '123456789', 29.99),
 ('Jane', 'Smith', 'jane.smith@example.com', '2023-01-01', 150, 22,'246728210',12.99),
 ('Jim', 'Beam', 'jim.beam@example.com', '2023-09-28',184, 15,'918762715', 99.99);
 
@@ -38,7 +38,8 @@ insert into personalSession(member_id, trainer_id, session_date, session_start,s
 insert into groupClass(class_date, class_start, class_end) VALUES
 ('2024-05-9', '12:00:00', '15:00:00'),
 ('2024-05-9', '09:00:00', '11:00:00'),
-('2024-05-10', '06:00:00', '07:30:00');
+('2024-05-10', '06:00:00', '07:30:00'),
+('2024-07-10', '10:30:00', '14:30:00');
 
 insert into classList(member_id, class_id) VALUES
 (1,1),
