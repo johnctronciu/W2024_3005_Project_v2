@@ -4,11 +4,11 @@ from connect import connect
 def addAvailability(trainer_id, available, start_time, end_time):
     config = load_config()
     connection = connect(config)
-    print("\Adding availability...")
+    print("Adding availability...")
     print("-----------------------------------------")
     if (connection != None):
         with connection.cursor() as cur:
-            cur.execute("insert into trainerSchedule (trainer_id, available, start_time, end_time)) VALUES (%s, %s, %s,%s);", (trainer_id, available, start_time, end_time)) #SQL statement to insert
+            cur.execute("insert into trainerSchedule (trainer_id, available, start_time, end_time) VALUES (%s, %s, %s,%s);", (trainer_id, available, start_time, end_time)) #SQL statement to insert
             connection.commit() #Commit any pending transaction to the database.
             connection.close()
     
@@ -50,47 +50,48 @@ def updateAvailibility(trainer_id, available,start_time=None,end_time=None):
             connection.commit()
             connection.close()
 
+def getMemberSession(member_id):
+    config = load_config() #load config to get user data to connect to database
+    connection = connect(config) #Connect
+ 
+    if (connection != None):
+        with connection.cursor() as cur:
+            cur.execute("select * from personalSession where member_id=%s", (member_id)) #Execute SQL statement
+            rows = cur.fetchall() #Get one rows/entries of data
+
+            print("\nDisplaying member personal sessions")
+            print("-----------------------------------------")
+            for row in rows:
+                print(row)
+
+def getMemberClass(member_id):
+    config = load_config() #load config to get user data to connect to database
+    connection = connect(config) #Connect
+ 
+    if (connection != None):
+        with connection.cursor() as cur:
+            cur.execute("select * from classList where member_id=%s", (member_id)) #Execute SQL statement
+            rows = cur.fetchall() #Get one rows/entries of data
+
+            print("\nDisplaying member group classess")
+            print("-----------------------------------------")
+            for row in rows:
+                print(row)
+
 def searchMemberProfile(first_name, last_name):
     config = load_config() #load config to get user data to connect to database
     connection = connect(config) #Connect
  
     if (connection != None):
         with connection.cursor() as cur:
-            cur.execute("select member_id, first_name, last_name, email, start_date, weight, bodyfat_percent from members where (first_name=%s and last_name=%s);", (first_name, last_name)) #Execute SQL statement
+            cur.execute("select member_id, first_name, last_name, email, start_date, weight, bodyfat_percent from members where first_name=%s and last_name=%s;", (first_name, last_name)) #Execute SQL statement
             rows = cur.fetchall() #Get one rows/entries of data
-
+            
             print("\nDisplaying member dashboard\n")
             print("Health Metrics and User information")
             print("-----------------------------------------")
             for row in rows:
+                member_id = row[0]
                 print(row)
-
-def getMemberSession(first_name, last_name):
-    config = load_config() #load config to get user data to connect to database
-    connection = connect(config) #Connect
- 
-    if (connection != None):
-        with connection.cursor() as cur:
-            cur.execute("select * from personalSession where first_name=%s and last_name=%s", first_name, last_name) #Execute SQL statement
-            rows = cur.fetchall() #Get one rows/entries of data
-
-            print("\nDisplaying member personal sessions\n")
-            print("Member: %s, %s" (first_name, last_name))
-            print("-----------------------------------------")
-            for row in rows:
-                print(row)
-
-def getMemberClass(first_name, last_name):
-    config = load_config() #load config to get user data to connect to database
-    connection = connect(config) #Connect
- 
-    if (connection != None):
-        with connection.cursor() as cur:
-            cur.execute("select * from personalSession where first_name=%s and last_name=%s", first_name, last_name) #Execute SQL statement
-            rows = cur.fetchall() #Get one rows/entries of data
-
-            print("\nDisplaying member personal sessions\n")
-            print("Member: %s, %s" (first_name, last_name))
-            print("-----------------------------------------")
-            for row in rows:
-                print(row)
+                getMemberSession(str(member_id))
+                getMemberClass(str(member_id))

@@ -1,7 +1,7 @@
 from config import load_config
 from connect import connect
 
-from datetime import datetime
+import admin_funcs
 
 def userRegistration(first_name, last_name, email, start_date, weight, bodyfat_percent, card_no, cost): #Add student to database
     config = load_config()
@@ -58,47 +58,18 @@ def userDisplay(member_id):
     print("")
     connection.close()
 
-def getTrainerTimes(trainer_id):
-    avail = []
-    config = load_config() #load config to get user data to connect to database
-    connection = connect(config) #Connect
-
- 
-    if (connection != None):
-        with connection.cursor() as cur:
-            cur.execute("select * from trainerSchedule where trainer_id=%s", trainer_id) #Execute SQL statement
-            rows = cur.fetchall() #Get all rows/entries of data
-            for row in rows:
-                avail.append((row[1],row[2],row[3]))
-    connection.close()
-    return avail
-
-
-def checkTimes(date, start, end, avail):
-    for slot in avail:
-        date = datetime.strptime(date, '%Y-%m-%d').date()
-        start = datetime.strptime(start, '%H:%M:%S').time()
-        end = datetime.strptime(end, '%H:%M:%S').time()
-        if (slot[0] != date):
-            return False
-        if ((slot[2].hour < start.hour) or (slot[1].hour > end.hour)):
-            return False
-        if (slot[1].hour == start.hour):
-            if (slot[1].minute > start.minute or slot[2].minute < slot[2].minute):
-                return False
-        if (slot[1].hour > end.hour or slot[2].hour < start.hour):
-            return False
-        
-    return True
-
 def schedulePersonal(member_id, trainer_id, session_date, session_start, session_end): # TODO:check times dont conflict
     config = load_config()
     connection = connect(config)
+
+    if not (admin_funcs.checkTimes(session_date,session_start,session_end,admin_funcs.getTrainerTimes(trainer_id))):
+            print("ERROR: Not a valid time...\n")
+            return None 
+
     print("\nBooking personal session...")
     print("-----------------------------------------")
     if (connection != None):
         with connection.cursor() as cur:
-
             cur.execute("insert into personalSession (member_id, trainer_id, session_date, session_start, session_end) VALUES (%s, %s, %s, %s, %s);", (member_id, trainer_id, session_date, session_start, session_end)) #SQL statement to insert
             connection.commit() #Commit any pending transaction to the database.
             connection.close()
@@ -176,4 +147,4 @@ if __name__ == '__main__':
     #userDisplay('1')
     #viewClasses()
     print(getTrainerTimes('1'))
-    print(checkTimes('2024-05-02', '18:00:00','20:00:00', getTrainerTimes('1')))
+    print(checkTimes('2024-05-02', '16:30:00','17:01:00', getTrainerTimes('1')))

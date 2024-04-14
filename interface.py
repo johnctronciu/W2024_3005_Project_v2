@@ -109,7 +109,7 @@ def adminInterface():
                 class_id = input("Enter the class to be booked in the room: ")
                 admin_funcs.bookRoom(room_no, class_id)
             elif (action =='3'):
-                room_no = input("Enter the room to be unbooked: ")
+                room_no = input("Enter the class to unbook the room for: ")
                 admin_funcs.unbookRoom(room_no)
             elif (action =='4'):
                 class_id = input("Enter the class ID to be updated: ")
@@ -159,7 +159,8 @@ def adminInterface():
                 admin_funcs.assignTrainertoClass(trainer_id, class_id)
             elif (action == '5'):
                 trainer_id = input("Enter the trainer ID to remove from the class: ")
-                admin_funcs.removeTrainerfromClass(trainer_id)
+                class_id = input("Enter the class to remove the trainer from: ")
+                admin_funcs.removeTrainerfromClass(trainer_id, class_id)
         elif (action == '4'):
             member_id = input("Enter the member you want to see the billing of: ")
             admin_funcs.getBilling(member_id)
@@ -209,8 +210,6 @@ def trainerInterface():
             member_first = input("Enter the first name of the number you would like to view: ")
             member_last = input("Enter the last name of the member you would like to view: ")
             trainer_funcs.searchMemberProfile(member_first, member_last)
-            trainer_funcs.getMemberSession(member_first,member_last)
-            trainer_funcs.getMemberClass(member_first,member_last)
         elif (action.lower() != 'quit'):
             print("Returning to main page...")
         else:
