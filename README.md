@@ -12,4 +12,4 @@
         password=[YOUR PASSWORD]
 4. Run interface.py and follow instructions given in command line to operate script.
 
-[Demo Link](https://youtu.be/4BwE-7NY9L4)
+[Demo Link](https://www.youtube.com/watch?v=8P-L7p4PRxw)

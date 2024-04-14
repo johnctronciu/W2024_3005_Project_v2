@@ -30,11 +30,6 @@ insert into trainers(first_name, last_name, email) VALUES
 ('Chad', 'Chad', 'chad.chad@trainer.com'),
 ('Stacie', 'Star', 'stacie.star@admin.com');
 
-insert into personalSession(member_id, trainer_id, session_date, session_start,session_end) VALUES
-(1,1,'2024-06-12', '09:00:00', '11:00:00'),
-(2,1,'2024-07-2', '14:30:00', '15:45:00'),
-(3,2,'2024-05-4', '12:00:00', '15:00:00');
-
 insert into groupClass(class_date, class_start, class_end) VALUES
 ('2024-05-9', '12:00:00', '15:00:00'),
 ('2024-05-9', '09:00:00', '11:00:00'),

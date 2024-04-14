@@ -21,9 +21,9 @@ def getTrainerTimes(trainer_id):
 
 def checkTimes(date, start, end, avail):
     for slot in avail:
-        date = datetime.strptime(date, '%Y-%m-%d').date()
-        start = datetime.strptime(start, '%H:%M:%S').time()
-        end = datetime.strptime(end, '%H:%M:%S').time()
+        date = datetime.strptime(str(date), '%Y-%m-%d').date()
+        start = datetime.strptime(str(start), '%H:%M:%S').time()
+        end = datetime.strptime(str(end), '%H:%M:%S').time()
 
         start_dt = datetime.combine(date,start)
         end_dt = datetime.combine(date,end)
